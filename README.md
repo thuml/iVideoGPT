@@ -6,7 +6,8 @@ This repo provides official code and checkpoints for iVideoGPT, a generic and ef
 
 ## News
 
-- 🚩 2024.05.28: The pre-trained model, inference code, project website, and a demo are coming soon in about one week!
+- 🚩 **2024.05.28**: The pre-trained model, inference code, project website, and a demo are coming soon in about one week!
+- 🚩 **2024.05.27**: Our paper is released on arXiv.
 
 ## Introduction
 
