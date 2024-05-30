@@ -1,0 +1,8 @@
+torch==2.2.1
+torchvision==0.17.1
+tensorflow==2.15.0
+tensorflow-datasets==4.9.3
+transformers==4.38.2
+diffusers==0.27.0
+imageio==2.9.0
+imageio-ffmpeg==0.4.4
