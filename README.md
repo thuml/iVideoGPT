@@ -28,7 +28,7 @@ At the moment we provide the following models:
 | ---- | ---- | ---- | ---- | ---- |
 | [ivideogpt-oxe-64-act-free](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free) | 64x64 | No |  114M   |  138M    |
 
-If no network connection to HuggingFace, you can manually download from [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/ef7d94c798504587a95e/).
+If no network connection to Hugging Face, you can manually download from [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/ef7d94c798504587a95e/).
 
 ## Inference Examples
 
