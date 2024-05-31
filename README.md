@@ -8,7 +8,7 @@ This repo provides official code and checkpoints for iVideoGPT, a generic and ef
 
 ## News
 
-- 🚩 **2024.05.31**: Project website with video samples are released.
+- 🚩 **2024.05.31**: Project website with video samples is released.
 - 🚩 **2024.05.30**: Model pre-trained on Open X-Embodiment and inference code are released.
 - 🚩 **2024.05.28**: The pre-trained model, inference code, project website, and a demo are coming soon in about one week!
 - 🚩 **2024.05.27**: Our paper is released on [arXiv](https://arxiv.org/abs/2405.15223).
