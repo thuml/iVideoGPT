@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="iVideoGPT: Interactive VideoGPTs are Scalable World Models">
+  <meta name="keywords" content="iVideoGPT, World Model, Model-based Reinforcement Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iVideoGPT</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" target="_blank" href="https://manchery.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" target="_blank" href="https://github.com/thuml/ContextWM">
+            ContextWM
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">🌏 iVideoGPT: Interactive VideoGPTs are Scalable World Models</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://manchery.github.io/">Jialong Wu</a>*<sup>1</sup>,</span>
+            <span class="author-block">
+              Shaofeng Yin*<sup>1,2</sup>,</span>
+            <span class="author-block">
+              Ningya Feng<sup>1</sup>,
+            </span>
+            <span class="author-block">
+              Xu He<sup>3</sup>,
+            </span>
+            <span class="author-block">
+              Dong Li<sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://www.icdai.org/jianye.html">Jianye Hao</a><sup>3,4</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://ise.thss.tsinghua.edu.cn/~mlong/">Mingsheng Long</a>#<sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>1</sup>School of Software, BNRist, Tsinghua University,</span>
+            <span class="author-block"><sup>2</sup>Zhili College, Tsinghua University</span>
+          </div>
+          <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>3</sup>Huawei Noah’s Ark Lab,</span>
+            <span class="author-block"><sup>4</sup>College of Intelligence and Computing, Tianjin University</span>
+          </div>
+          <div class="is-size-6 publication-authors">
+            <span class="author-block">* Equal Contribution,</span>
+            <span class="author-block"># Corresponding Author</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a target="_blank" href="https://arxiv.org/abs/2405.15223"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a target="_blank" href="https://github.com/thuml/iVideoGPT"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+
+              <!-- Model Link. -->
+              <span class="link-block">
+                <a target="_blank" href="https://huggingface.co/thuml/ivideogpt-oxe-64-act-free"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fa fa-database"></i>
+                  </span>
+                  <span>Model</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            World models empower model-based agents to interactively explore, reason, and plan 
+            within imagined environments for real-world decision-making. However, the high demand 
+            for interactivity poses challenges in harnessing recent advancements in video generative 
+            models for developing world models at scale. This work introduces Interactive VideoGPT 
+            (iVideoGPT), a scalable autoregressive transformer framework that integrates multimodal 
+            signals—visual observations, actions, and rewards—into a sequence of tokens, facilitating 
+            an interactive experience of agents via next-token prediction. iVideoGPT features a novel 
+            compressive tokenization technique that efficiently discretizes high-dimensional visual 
+            observations. Leveraging its scalable architecture, we are able to pre-train iVideoGPT 
+            on millions of human and robotic manipulation trajectories, establishing a versatile 
+            foundation that is adaptable to serve as interactive world models for a wide range of 
+            downstream tasks. These include action-conditioned video prediction, visual planning, 
+            and model-based reinforcement learning, where iVideoGPT achieves competitive performance 
+            compared with state-of-the-art methods. Our work advances the development of interactive 
+            general world models, bridging the gap between generative video models and practical 
+            model-based reinforcement learning applications.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+<div class="rows">
+  <div class="row is-full-width half-width">
+    <h2 class="title is-3"><span>iVideoGPT</span></h2>
+    <h3 class="title is-4">Architecture</h3>
+    <div class="content has-text-centered">
+      <img src="static/images/architecture.png" class="interpolation-image" width="85%"/>
+    </div>
+    <p class="content has-text-justified">
+      iVideoGPT is a <b>generic and efficient</b> world model architecture: (a) <b>Compressive tokenization</b> utilizes 
+      a conditional VQGAN that discretizes future frames conditioned on context frames to handle temporal 
+      redundancy, reducing the number of video tokens asymptotically by 16x. (b) An <b>autoregressive transformer</b> integrates 
+      multimodal signals—visual observations, actions, and rewards—into a sequence of tokens, enabling <b>interactive 
+      agent experience</b> through next-token prediction.
+    </p>
+
+    <h3 class="title is-4">Pre-training & Fine-tuning</h3>
+    <div class="content has-text-centered">
+      <img src="static/images/task.png" class="interpolation-image" width="100%"/>
+    </div>
+    <p class="content has-text-justified">
+      iVideoGPT is <b>scalable</b> for <b>action-free video pre-training</b> on a mixture of 1.5 million <a href="https://robotics-transformer-x.github.io/">robotic</a> and <a href="https://developer.qualcomm.com/software/ai-datasets/something-something">human</a> manipulation trajectories. 
+      The pre-trained iVideoGPT serves as a versatile foundation that can be adapted into interactive world models for various downstream tasks.
+      These include action-conditioned <a href="#video-prediction">video prediction</a>, <a href="#visual-planning">visual planning</a>, and <a href="#visual-mbrl">visual model-based RL</a>.
+    </p>
+
+  </div>
+</div>
+
+
+  </div>
+</section>
+
+<section class="section" id="video-prediction">
+  <div class="container is-max-desktop">    
+    <div class="rows">
+      <h2 class="title is-3">Video Prediction</h2>
+
+      <h3 class="title is-4">Video Samples: Open X-Embodiment (Action-free)</h3>
+      <p class="content has-text-justified">
+        Our pre-training dataset, <a href="https://robotics-transformer-x.github.io/">Open X-Embodiment</a>, is a diverse collection of robot learning datasets 
+        from a variety of robot embodiments, scenes, and tasks. These datasets are highly heterogeneous but can be easily unified in the <b>action-free video prediction</b> task.
+      </p>
+      <div class="zoom_container has-text-centered">
+        <div id="content_zoom_out">
+          <img src="./static/gifs/oxe-fractal-67.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe-language-table-0.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe-bc-z-0.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe-cum-play-fusion-17.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe-standford-maskvit-14.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe-bridge-8.gif" style="width:16%"/>
+          <br/>
+          <img src="./static/gifs/oxe-stanford-hydra-1.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_fractal_3.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe-austin-buds-2.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_asu_table_top_19.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe-nyu-franka-play-9.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_cmu_strctch_5.gif" style="width:16%"/>
+          <br/>
+          <img src="./static/gifs/oxe_columbia_cairlab_push_10.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_furniture_bench_10.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_fractal_9.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_fractal_68.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_robonet_7.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_sara_grid_clamp.gif" style="width:16%"/>
+          <br/>
+          <img src="./static/gifs/oxe_ucsd_pick_and_place_13.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_utokyo_xarm_pick_and_place_7.gif" style="width:16%"/>
+          <img src="./static/gifs/oxe_viola_0.gif" style="width:16%"/>
+        </div>
+        <div id="content_zoom_in">
+          <img src="./static/gifs/oxe-fractal-67.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe-language-table-0.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe-bc-z-0.gif" style="width:33%"/>
+          <br/>
+          <img src="./static/gifs/oxe-cum-play-fusion-17.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe-standford-maskvit-14.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe-bridge-8.gif" style="width:33%"/>
+          <br/>
+          <img src="./static/gifs/oxe-stanford-hydra-1.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe_fractal_3.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe-austin-buds-2.gif" style="width:33%"/>
+          <br/>
+          <img src="./static/gifs/oxe_asu_table_top_19.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe-nyu-franka-play-9.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe_cmu_strctch_5.gif" style="width:33%"/>
+          <br/>
+          <img src="./static/gifs/oxe_columbia_cairlab_push_10.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe_furniture_bench_10.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe_fractal_9.gif" style="width:33%"/>
+          <br/>
+          <img src="./static/gifs/oxe_fractal_68.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe_robonet_7.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe_sara_grid_clamp.gif" style="width:33%"/>
+          <br/>
+          <img src="./static/gifs/oxe_ucsd_pick_and_place_13.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe_utokyo_xarm_pick_and_place_7.gif" style="width:33%"/>
+          <img src="./static/gifs/oxe_viola_0.gif" style="width:33%"/>
+        </div>
+        <p class="content has-text-centered"><i>In each pair, the left image is the ground truth and the right image is the predicted video.
+          The red border indicates the context frame and the green border means the frame was predicted. <b>Hover to zoom in.</b></i></p>
+      </div>      
+      <br/>
+      <details>
+      <summary class="content has-text-justified">Expand more samples on <a href="https://sites.google.com/view/sna-visual-mpc/">BAIR Robot Pushing</a> and <a href="https://www.robonet.wiki/">RoboNet</a></summary>
+      <h4 class="title is-5">BAIR Robot Pushing (Action-free)</h4>
+        <div>
+          <img src="./static/gifs/bair-af-1.gif" style="width:33%"/>
+          <img src="./static/gifs/bair-af-11.gif" style="width:33%"/>
+          <img src="./static/gifs/bair-af-17.gif" style="width:33%"/>
+        </div>
+      <br/>
+      <h4 class="title is-5">BAIR Robot Pushing (Action-conditioned)</h4>
+        <div>
+          <img src="./static/gifs/bair-ac-108.gif" style="width:33%"/>
+          <img src="./static/gifs/bair-ac-60.gif" style="width:33%"/>
+          <img src="./static/gifs/bair-ac-186.gif" style="width:33%"/>
+        </div>
+      <br/>
+      <h4 class="title is-5">RoboNet (Action-conditioned, 64x64)</h4>
+        <div>
+          <img src="./static/gifs/robonet-64-159.gif" style="width:33%"/>
+          <img src="./static/gifs/robonet-64-240.gif" style="width:33%"/>
+          <img src="./static/gifs/robonet-64-176.gif" style="width:33%"/>
+
+          <img src="./static/gifs/robonet-64-254.gif" style="width:33%"/>
+          <img src="./static/gifs/robonet-64-220.gif" style="width:33%"/>
+          <img src="./static/gifs/robonet-64-251.gif" style="width:33%"/>
+        </div>
+      <br/>
+      <h4 class="title is-5">RoboNet (Action-conditioned, 256x256)</h4>
+        <div>
+          <img src="./static/gifs/robonet-256-24.gif" style="width:49%"/>
+          <img src="./static/gifs/robonet-256-1.gif" style="width:49%"/>
+    
+          <img src="./static/gifs/robonet-256-145.gif" style="width:49%"/>
+          <img src="./static/gifs/robonet-256-96.gif" style="width:49%"/>
+    
+          <img src="./static/gifs/robonet-256-0.gif" style="width:49%"/>
+          <img src="./static/gifs/robonet-256-155.gif" style="width:49%"/>
+        </div>
+      <br/>
+      </details>
+
+      <h3 class="title is-4">Zero-shot Prediction</h3>
+      <div class="content has-text-centered">
+        <img src="static/images/zeroshot_pred.png" class="interpolation-image" width="100%"/>
+      </div>
+      <p class="content has-text-justified">
+        We analyze the zero-shot video prediction capability of the large-scale pretrained iVideoGPT on the unseen BAIR dataset. 
+        Interestingly, we observe that iVideoGPT, without fine-tuning, can predict natural movements of a robot gripper—albeit predicting into another one originally from our pre-training dataset.
+        This generalization issue can be resolved with simple <b>tokenization adaptation</b>, allowing the transformer to transfer its pre-trained knowledge and predict movements for the new robot type.
+        This property is particularly important for scaling GPT-like transformers to large sizes, enabling <b>lightweight alignment</b> across domains while keeping the transformer itself intact.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="visual-planning">
+  <div class="container is-max-desktop">    
+    
+    <div class="rows">
+    <h2 class="title is-3">Visual Planning</h2>
+    <p class="content has-text-justified">
+    While a <a href="https://arxiv.org/abs/2304.13723">control-centric benchmark</a> that evaluates video prediction models for visual model-predictive control (MPC) observed that excellent perceptual metrics do not always correlate with effective control performance, 
+    iVideoGPT outperforms all baselines in two RoboDesk tasks with a large margin and achieves comparable average performance to the strongest model.
+    </p>
+
+    <div class="content has-text-centered">
+      <img src="static/images/vp2.png" class="interpolation-image" width="80%"/>
+    </div>
+
+    <h3 class="title is-4">Video Samples</h3>
+    <div class="zoom_container has-text-centered">
+      <div id="content_zoom_out">
+        <img src="./static/gifs/vp2-1-1.gif" style="width:16%"/>
+        <img src="./static/gifs/vp2-1-2.gif" style="width:16%"/>
+        <img src="./static/gifs/vp2-1-3.gif" style="width:16%"/>
+        <br/>
+        <img src="./static/gifs/vp2-2-1.gif" style="width:16%"/>
+        <img src="./static/gifs/vp2-2-2.gif" style="width:16%"/>
+        <img src="./static/gifs/vp2-2-3.gif" style="width:16%"/>
+        <img src="./static/gifs/vp2-3-1.gif" style="width:16%"/>
+        <img src="./static/gifs/vp2-3-2.gif" style="width:16%"/>
+        <img src="./static/gifs/vp2-3-3.gif" style="width:16%"/>
+      </div>
+      <div id="content_zoom_in">
+        <img src="./static/gifs/vp2-1-1.gif" style="width:33%"/>
+        <img src="./static/gifs/vp2-1-2.gif" style="width:33%"/>
+        <img src="./static/gifs/vp2-1-3.gif" style="width:33%"/>
+        <br/>
+        <img src="./static/gifs/vp2-2-1.gif" style="width:33%"/>
+        <img src="./static/gifs/vp2-2-2.gif" style="width:33%"/>
+        <img src="./static/gifs/vp2-2-3.gif" style="width:33%"/>
+        <br/>
+        <img src="./static/gifs/vp2-3-1.gif" style="width:33%"/>
+        <img src="./static/gifs/vp2-3-2.gif" style="width:33%"/>
+        <img src="./static/gifs/vp2-3-3.gif" style="width:33%"/>
+      </div>
+      <p class="content has-text-centered"><i><b>Hover to zoom in.</b></i></p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="visual-mbrl">
+  <div class="container is-max-desktop">    
+    
+    <div class="rows">
+    <h2 class="title is-3">Visual Model-based RL</h2>
+
+    <p class="content justify">
+      <img src="static/images/mbrl.png" class="interpolation-image" width="40%" align="right" style="margin:0% 4% "/>
+      Leveraging iVideoGPT as interactive world models, we have developed a model-based RL method adapted from <a href="https://arxiv.org/abs/1906.08253">MBPO</a>, 
+      which augments the replay buffer with synthetic rollouts to train a standard actor-critic RL algorithm (our implementation builds upon <a href="https://github.com/facebookresearch/drqv2">DrQ-v2</a>).
+      Power world models highlights the opportunity to <b>eliminate the need for latent imagination</b>—a common strategy used in advanced MBRL systems to train policies on rollouts of latent states within world models. 
+      Latent imagination facilitates more efficient and accurate rollouts, but complicates algorithmic designs by tightly coupling model and policy learning.
+    </p>
+    <h3 class="title is-4">Sample Efficiency</h3>
+    <p class="content has-text-justified">
+      On six robotic manipulation tasks from <a href="https://meta-world.github.io/">Meta-World</a>, our model-based algorithm not only remarkably improves the sample efficiency over its model-free counterpart 
+      but also matches or exceeds the performance of <a href="https://danijar.com/project/dreamerv3/">DreamerV3</a>. 
+      To our knowledge, this marks the <b>first successful application of MBPO to visual continuous control tasks</b>.
+    </p>
+    <div class="content has-text-centered">
+      <img src="static/images/metaworld.png" class="interpolation-image" width="80%"/>
+    </div>
+
+    <h3 class="title is-4">Video Samples</h3>
+    <div class="zoom_container has-text-centered">
+      <div id="content_zoom_out">
+        <img src="./static/gifs/metaworld-1-1.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-1-2.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-1-3.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-2-1.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-2-2.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-2-3.gif" style="width:16%"/>
+        <br/>
+        <img src="./static/gifs/metaworld-3-1.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-3-2.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-3-3.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-4-1.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-4-2.gif" style="width:16%"/>
+        <img src="./static/gifs/metaworld-4-3.gif" style="width:16%"/>
+      </div>
+      <div id="content_zoom_in">
+        <img src="./static/gifs/metaworld-1-1.gif" style="width:33%"/>
+        <img src="./static/gifs/metaworld-1-2.gif" style="width:33%"/>
+        <img src="./static/gifs/metaworld-1-3.gif" style="width:33%"/>
+        <br/>
+        <img src="./static/gifs/metaworld-2-1.gif" style="width:33%"/>
+        <img src="./static/gifs/metaworld-2-2.gif" style="width:33%"/>
+        <img src="./static/gifs/metaworld-2-3.gif" style="width:33%"/>
+        <br/>
+        <img src="./static/gifs/metaworld-3-1.gif" style="width:33%"/>
+        <img src="./static/gifs/metaworld-3-2.gif" style="width:33%"/>
+        <img src="./static/gifs/metaworld-3-3.gif" style="width:33%"/>
+        <br/>
+        <img src="./static/gifs/metaworld-4-1.gif" style="width:33%"/>
+        <img src="./static/gifs/metaworld-4-2.gif" style="width:33%"/>
+        <img src="./static/gifs/metaworld-4-3.gif" style="width:33%"/>
+      </div>
+      <p class="content has-text-centered"><i>True and predicted rewards are labeled at the top left corner. <b>Hover to zoom in.</b></i></p>
+    </div>
+    
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="visual-mbrl">
+  <div class="container is-max-desktop content">        
+    <div class="rows">
+    <h2 class="title">Related Research</h2>
+    <p class="content has-text-justified">
+      You may also be interested in <a href="https://github.com/thuml/ContextWM">ContextWM</a>, a pioneering work that leverages <b>real-world videos</b> for <b>world model pre-training</b>, 
+      enabling sample-efficient model-based RL for visual control tasks across various domains. This project also includes unified PyTorch implementations 
+      of <a href="https://arxiv.org/abs/2010.02193">DreamerV2</a> and <a href="https://arxiv.org/abs/2203.13880">APV</a>.
+    </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="citation">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Citation</h2>
+    <pre><code>@article{wu2024ivideogpt,
+    title={iVideoGPT: Interactive VideoGPTs are Scalable World Models}, 
+    author={Jialong Wu and Shaofeng Yin and Ningya Feng and Xu He and Dong Li and Jianye Hao and Mingsheng Long},
+    journal={arXiv preprint arXiv:2405.15223},
+    year={2024},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <!-- <a class="icon-link" 
+         href="https://arxiv.org/abs/2405.15223">
+        <i class="fas fa-file-pdf"></i>
+      </a> -->
+      <a class="icon-link" href="https://github.com/thuml/iVideoGPT" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+      <!-- <a class="icon-link" href="https://huggingface.co/thuml/ivideogpt-oxe-64-act-free" class="external-link" disabled>
+        <i class="fa fa-database"></i>
+      </a>
+      <a class="icon-link"
+         href="https://manchery.github.io/">
+        <i class="fas fa-home"></i>
+      </a> -->
+    </div>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website template borrowed from  <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
