@@ -88,7 +88,7 @@ For action-conditioned video prediction, run the following:
 accelerate launch train_gpt.py \
     --exp_name bair_llama_ft --output_dir log_trm --seed 0 --mixed_precision bf16 \
     --vqgan_type ctx_vqgan \
-    --pretrained_model_name_or_path {log directory for finetuned tokenizer}/unwrapped_model \
+    --pretrained_model_name_or_path {log directory of finetuned tokenizer}/unwrapped_model \
     --config_name configs/llama/config.json --load_internal_llm --action_conditioned --action_dim 4 \
     --pretrained_transformer_path pretrained_models/ivideogpt-oxe-64-act-free/transformer \
     --per_device_train_batch_size 16 --gradient_accumulation_steps 1 \
