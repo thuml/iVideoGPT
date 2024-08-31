@@ -55,7 +55,7 @@ To finetune our [pretrained iVideoGPT](https://huggingface.co/thuml/ivideogpt-ox
 
 To evaluate the FVD metric, download [pretrained I3D model](https://www.dropbox.com/s/ge9e5ujwgetktms/i3d_torchscript.pt?dl=1) into `pretrained_models/i3d/i3d_torchscript.pt`.
 
-#### Data Preprocessing: BAIR Robot Pushing**
+#### Data Preprocessing: BAIR Robot Pushing
 
 Download the [dataset](http://rail.eecs.berkeley.edu/datasets/bair_robot_pushing_dataset_v0.tar) and preprocess with the following script:
 
@@ -68,7 +68,7 @@ python preprocess_bair.py --input_path bair_robot_pushing_dataset_v0/softmotion3
 
 Then modify the saved paths (e.g. `bair_preprocessed/train` and `bair_preprocessed/test`) in `DATASET.yaml`.
 
-### Fine-tuning Tokenizer
+### Finetuning Tokenizer
 
 ```bash
 accelerate launch train_tokenizer.py \
@@ -80,7 +80,7 @@ accelerate launch train_tokenizer.py \
     --pretrained_model_name_or_path pretrained_models/ivideogpt-oxe-64-act-free/tokenizer
 ```
 
-#### Fine-tuning Transformer
+### Finetuning Transformer
 
 For action-conditioned video prediction, run the following:
 
