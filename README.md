@@ -47,17 +47,15 @@ python oxe_data_converter.py --dataset_name {dataset_name, e.g. bridge} --input_
 
 ## Training Video Prediction
 
-### Preparation
-
-#### Pretrained Models
+### Pretrained Models
 
 To finetune our [pretrained iVideoGPT](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free), download it into `pretrained_models/ivideogpt-oxe-64-act-free`.
 
 To evaluate the FVD metric, download [pretrained I3D model](https://www.dropbox.com/s/ge9e5ujwgetktms/i3d_torchscript.pt?dl=1) into `pretrained_models/i3d/i3d_torchscript.pt`.
 
-#### Data Preprocessing: BAIR Robot Pushing
+### Data Preprocessing
 
-Download the [dataset](http://rail.eecs.berkeley.edu/datasets/bair_robot_pushing_dataset_v0.tar) and preprocess with the following script:
+**BAIR Robot Pushing**: Download the [dataset](http://rail.eecs.berkeley.edu/datasets/bair_robot_pushing_dataset_v0.tar) and preprocess with the following script:
 
 ```bash
 wget http://rail.eecs.berkeley.edu/datasets/bair_robot_pushing_dataset_v0.tar -P .
