@@ -36,7 +36,7 @@ If no network connection to Hugging Face, you can manually download from [Tsingh
 ### Action-free Video Prediction on Open X-Embodiment
 
 ```bash
-python predict.py --pretrained_model_name_or_path "thuml/ivideogpt-oxe-64-act-free" --input_path samples/fractal_sample.npz --dataset_name fractal20220817_data
+python inference/predict.py --pretrained_model_name_or_path "thuml/ivideogpt-oxe-64-act-free" --input_path inference/samples/fractal_sample.npz --dataset_name fractal20220817_data
 ```
 
 To try more samples, download the dataset from the [Open X-Embodiment Dataset](https://robotics-transformer-x.github.io/) and extract single episodes as follows:
@@ -63,7 +63,7 @@ Download the [dataset](http://rail.eecs.berkeley.edu/datasets/bair_robot_pushing
 wget http://rail.eecs.berkeley.edu/datasets/bair_robot_pushing_dataset_v0.tar -P .
 tar -xvf ./bair_robot_pushing_dataset_v0.tar -C .
 
-python preprocess_bair.py --input_path bair_robot_pushing_dataset_v0/softmotion30_44k --save_path bair_preprocessed
+python datasets/preprocess_bair.py --input_path bair_robot_pushing_dataset_v0/softmotion30_44k --save_path bair_preprocessed
 ```
 
 Then modify the saved paths (e.g. `bair_preprocessed/train` and `bair_preprocessed/test`) in `DATASET.yaml`.
