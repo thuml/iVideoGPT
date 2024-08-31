@@ -113,7 +113,7 @@ pip install git+https://github.com/Farama-Foundation/Metaworld.git@83ac03ca3207c
 
 Modify paths in `mbrl/cfgs/mbpo_config.yaml` to your own paths (currently only support absolute paths).
 
-### Training
+### MBRL with iVideoGPT
 
 ```bash
 python mbrl/train_metaworld_mbpo.py task=plate_slide num_train_frames=100002 demo=true
