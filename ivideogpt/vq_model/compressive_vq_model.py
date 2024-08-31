@@ -3,13 +3,31 @@ from typing import *
 import torch
 import torch.nn as nn
 
+from dataclasses import dataclass
 from diffusers.models.autoencoders.vae import VectorQuantizer
 from diffusers.configuration_utils import register_to_config, ConfigMixin
 from diffusers.models.modeling_utils import ModelMixin
+from diffusers.utils import BaseOutput
 from diffusers.utils.accelerate_utils import apply_forward_hook
 
 from .vae import Encoder, Decoder
 from .conditional_vae import ConditionalEncoder, ConditionalDecoder
+
+
+@dataclass
+class CompressiveVQEncoderOutput(BaseOutput):
+
+    latents: torch.FloatTensor
+    dynamics_latents: torch.FloatTensor
+
+
+@dataclass
+class CompressiveVQDecoderOutput(BaseOutput):
+
+    sample: torch.FloatTensor
+    ref_sample: Optional[torch.FloatTensor] = None
+    commit_loss: Optional[torch.FloatTensor] = None
+    dyn_commit_loss: Optional[torch.FloatTensor] = None
 
 
 class CompressiveVQModel(ModelMixin, ConfigMixin):
@@ -133,6 +151,16 @@ class CompressiveVQModel(ModelMixin, ConfigMixin):
             mid_block_add_attention=mid_block_add_attention,
         )
 
+    def set_context_length(self, context_length):
+        self.context_length = context_length
+        self.config['context_length'] = context_length
+        self.cond_encoder.set_context_length(context_length)
+        self.cond_decoder.set_context_length(context_length)
+
+    def init_modules(self):
+        print(self.cond_decoder.load_state_dict(self.decoder.state_dict(), strict=False))
+        print(self.cond_encoder.load_state_dict(self.encoder.state_dict(), strict=False))
+
     @apply_forward_hook
     def tokenize(self, pixel_values: torch.FloatTensor, context_length: int = 0):
         assert context_length == self.context_length  # TODO: fix
@@ -192,7 +220,7 @@ class CompressiveVQModel(ModelMixin, ConfigMixin):
         return indices, labels
 
     @apply_forward_hook
-    def detokenize(self, indices, context_length: int = 0):
+    def detokenize(self, indices, context_length: int = 0, cache=None, return_cache=False):
         assert context_length == self.context_length  # TODO: fix
         ctx_res = 16  # TODO: magic number
         dyn_res = 4
@@ -222,7 +250,10 @@ class CompressiveVQModel(ModelMixin, ConfigMixin):
         quant2_d = torch.reshape(quant2_d, [quant2_d.shape[0], c, h, w])
 
         # decode context frames
-        context_dec, cond_features = self.decoder(quant2, return_features=True)
+        if cache is not None:
+            context_dec, cond_features = cache["context_dec"], cache["cond_features"]
+        else:
+            context_dec, cond_features = self.decoder(quant2, return_features=True)
         if context_length > 1:
             B = quant2_d.shape[0] // future_length
             cond_features = [
@@ -240,4 +271,99 @@ class CompressiveVQModel(ModelMixin, ConfigMixin):
         context_dec = context_dec.reshape(B, context_length, *context_dec.shape[-3:])
         dec = dec.reshape(B, future_length, *dec.shape[-3:])
 
-        return torch.cat([context_dec, dec], dim=1)
+        if return_cache:
+            return torch.cat([context_dec, dec], dim=1), {"context_dec": context_dec, "cond_features": cond_features}
+        else:
+            return torch.cat([context_dec, dec], dim=1)
+
+    @apply_forward_hook
+    def encode(self, encoder, x: torch.FloatTensor, return_dict: bool = True) -> CompressiveVQEncoderOutput:
+        h, d = encoder(x)
+        h = self.quant_conv(h)
+
+        if not return_dict:
+            return (h, d)
+
+        return CompressiveVQEncoderOutput(latents=h, dynamics_latents=d)
+
+    @apply_forward_hook
+    def decode(
+        self, h: torch.FloatTensor, d: torch.FloatTensor,
+        force_not_quantize: bool = False, return_dict: bool = True, shape=None
+    ) -> Union[CompressiveVQDecoderOutput, torch.FloatTensor]:
+        # also go through quantization layer
+        quant, commit_loss, _ = self.quantize(h)
+
+        d = d.transpose(-1, -2).unsqueeze(-1)  # [B, L, D] => [B, D, L, 1]
+        quant_d, dyn_commit_loss, _ = self.dynamics_quantize(d)
+        quant_d = quant_d.squeeze(-1).transpose(-1, -2)  # [B, D, L, 1] => [B, L, D]
+
+        quant2 = self.post_quant_conv(quant)
+        quant2_d = self.post_quant_linear(quant_d)
+
+        # de-patchify
+        h, w, p, c = quant2.shape[-1], quant2.shape[-1], self.patch_size, self.dyna_latent_channels
+        quant2_d = torch.reshape(quant2_d, [quant2_d.shape[0], h // p, w // p, p, p, c])
+        quant2_d = torch.einsum("nhwpqc->nchpwq", quant2_d)
+        quant2_d = torch.reshape(quant2_d, [quant2_d.shape[0], c, h, w])
+
+        ref_dec, cond_features = self.decoder(quant2, return_features=True)
+        if self.context_length > 1:
+            B = quant2_d.shape[0] // self.segment_len
+            cond_features = [
+                f.reshape(B, self.context_length, *f.shape[-3:]).unsqueeze(1).repeat(1, self.segment_len, 1, 1, 1, 1).reshape(-1, self.context_length, *f.shape[-3:]) for f in cond_features
+            ]  # B*(T-t), t, C, H, W
+        else:
+            cond_features = [f.unsqueeze(1).repeat(1, self.segment_len, 1, 1, 1).reshape(-1,
+                                                                                        *f.shape[-3:]) for f in cond_features]
+
+        dec = self.cond_decoder(quant2_d, cond_features)
+
+        if not return_dict:
+            return (
+                dec,
+                ref_dec,
+                commit_loss,
+                dyn_commit_loss,
+            )
+
+        return CompressiveVQDecoderOutput(sample=dec, ref_sample=ref_dec, commit_loss=commit_loss, dyn_commit_loss=dyn_commit_loss)
+
+    def forward(
+        self, sample: torch.FloatTensor, return_dict: bool = True, return_loss: bool = False,
+        segment_len: int = None,
+        dyn_sample: torch.FloatTensor = None,
+    ) -> Union[CompressiveVQDecoderOutput, Tuple[torch.FloatTensor, ...]]:
+        self.segment_len = segment_len
+
+        h, cond_features = self.encoder(sample, return_features=True)
+        if self.context_length > 1:
+            B = dyn_sample.shape[0] // self.segment_len
+            cond_features = [
+                f.reshape(B, self.context_length, *f.shape[-3:]).unsqueeze(1).repeat(1, self.segment_len, 1, 1, 1, 1).reshape(-1, self.context_length, *f.shape[-3:]) for f in cond_features
+            ]  # B*(T-t), t, C, H, W
+        else:
+            cond_features = [f.unsqueeze(1).repeat(1, self.segment_len, 1, 1, 1).reshape(-1,
+                                                                                        *f.shape[-3:]) for f in cond_features]
+        h = self.quant_conv(h)
+
+        d = self.cond_encoder(dyn_sample, cond_features)
+        p = self.patch_size
+        d = d.permute(0, 2, 3, 1).unfold(1, p, p).unfold(2, p, p).permute(0, 1, 2, 4, 5, 3)  # [B, H/P, W/P, P, P, C]
+        d = d.reshape(d.shape[0], d.shape[1] * d.shape[2], -1)
+        d = self.quant_linear(d)
+
+        dec = self.decode(h, d)
+
+        if not return_dict:
+            if return_loss:
+                return (
+                    dec.sample,
+                    dec.ref_sample,
+                    dec.commit_loss,
+                    dec.dyn_commit_loss,
+                )
+            return (dec.sample,)
+        if return_loss:
+            return dec
+        return CompressiveVQDecoderOutput(sample=dec.sample)

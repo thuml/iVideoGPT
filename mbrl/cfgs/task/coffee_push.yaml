@@ -1,0 +1,10 @@
+defaults:
+  - easy
+  - _self_
+
+task_name: coffee_push
+action_repeat: 2
+eval_every_frames: 2000
+num_eval_episodes: 20
+num_train_frames: 260002
+num_seed_frames: 4000

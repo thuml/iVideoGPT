@@ -31,6 +31,10 @@ class CrossAttentionBlock(nn.Module):
         self.q_pos_emb = nn.parameter.Parameter(torch.zeros((resolution * resolution, channels)), requires_grad=True)
         self.act = get_activation(act_fn)
 
+    def set_kv_frames(self, kv_frames):
+        self.kv_pos_emb.data = self.kv_pos_emb.data[-kv_frames * self.kv_pos_emb.shape[0] // self.kv_frames:]
+        self.kv_frames = kv_frames
+
     def forward(self, z, addin):
         # x: [B, C, H, W]
         # addin: [B, C, H, W] or [B, t, C, H, W]
@@ -96,6 +100,10 @@ class ConditionalEncoder(Encoder):
             if resolution <= max_att_resolution:
                 self.cross_att_blocks.append(
                     CrossAttentionBlock(output_channel, resolution, kv_frames=context_length))
+
+    def set_context_length(self, context_length):
+        for cross_att_block in self.cross_att_blocks:
+            cross_att_block.set_kv_frames(context_length)
 
     def forward(
         self,
@@ -170,6 +178,10 @@ class ConditionalDecoder(Decoder):
             if resolution <= max_att_resolution:
                 self.cross_att_blocks.append(
                     CrossAttentionBlock(output_channel, resolution, kv_frames=context_length))
+
+    def set_context_length(self, context_length):
+        for cross_att_block in self.cross_att_blocks:
+            cross_att_block.set_kv_frames(context_length)
 
     def forward(
         self,
