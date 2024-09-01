@@ -1,0 +1,43 @@
+{
+  "_class_name": "VQModel",
+  "_diffusers_version": "0.25.0.dev0",
+  "act_fn": "silu",
+  "block_out_channels": [
+    128,
+    256,
+    256,
+    512,
+    768
+  ],
+  "down_block_types": [
+    "DownEncoderBlock2D",
+    "DownEncoderBlock2D",
+    "DownEncoderBlock2D",
+    "DownEncoderBlock2D",
+    "DownEncoderBlock2D"
+  ],
+  "in_channels": 3,
+  "latent_channels": 64,
+  "layers_per_block": 2,
+  "lookup_from_codebook": true,
+  "mid_block_add_attention": false,
+  "norm_num_groups": 32,
+  "norm_type": "group",
+  "num_vq_embeddings": 8192,
+  "out_channels": 3,
+  "sample_size": 32,
+  "scaling_factor": 0.18215,
+  "up_block_types": [
+    "UpDecoderBlock2D",
+    "UpDecoderBlock2D",
+    "UpDecoderBlock2D",
+    "UpDecoderBlock2D",
+    "UpDecoderBlock2D"
+  ],
+  "vq_embed_dim": null,
+  "force_upcast": true,
+  "dyn_dim": 256,
+  "num_dyn_tokens": 8,
+  "num_dyn_embeddings": 8192,
+  "context_length": 2
+}
