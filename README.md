@@ -8,7 +8,7 @@ This repo provides official code and checkpoints for iVideoGPT, a generic and ef
 
 ## News
 
-- 🚩 **2024.09.26**: iVideoGPT is accepted by NeurIPS 2024, congrats!
+- 🚩 **2024.09.26**: iVideoGPT has been accepted by NeurIPS 2024, congrats!
 - 🚩 **2024.08.31**: Training code is released (Work in progress 🚧 and please stay tuned!)
 - 🚩 **2024.05.31**: Project website with video samples is released.
 - 🚩 **2024.05.30**: Model pre-trained on Open X-Embodiment and inference code are released.
