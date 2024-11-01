@@ -8,11 +8,12 @@ This repo provides official code and checkpoints for iVideoGPT, a generic and ef
 
 ## News
 
+- 🚩 **2024.11.01**: NeurIPS 2024 camera-ready version is released on [arXiv](https://arxiv.org/abs/2405.15223v3).
 - 🚩 **2024.09.26**: iVideoGPT has been accepted by NeurIPS 2024, congrats!
 - 🚩 **2024.08.31**: Training code is released (Work in progress 🚧 and please stay tuned!)
 - 🚩 **2024.05.31**: Project website with video samples is released.
 - 🚩 **2024.05.30**: Model pre-trained on Open X-Embodiment and inference code are released.
-- 🚩 **2024.05.27**: Our paper is released on [arXiv](https://arxiv.org/abs/2405.15223).
+- 🚩 **2024.05.27**: Our paper is released on [arXiv](https://arxiv.org/abs/2405.15223v1).
 
 ## Installation
 
