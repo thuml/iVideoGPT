@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 At the moment we provide the following models:
 
-| Model | Resolution | Action-cond. | Goal-cond. | Tokenizer Size | Transformer Size |
+| Model | Resolution | Action-conditioned | Goal-conditioned | Tokenizer Size | Transformer Size |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | [ivideogpt-oxe-64-act-free](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free) | 64x64 | No | No | 114M   |  138M    |
 | [ivideogpt-oxe-64-act-free-medium](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free-medium) | 64x64 | No | No |  114M   |  436M    |
