@@ -38,7 +38,7 @@ If no network connection to Hugging Face, you can manually download from [Tsingh
 
 **Notes**:
 
-- Due to the heterogeneity of action spaces, we currently do not have a action-conditioned prediction model on OXE.
+- Due to the heterogeneity of action spaces, we currently do not have an action-conditioned prediction model on OXE.
 - Pre-trained models at 256x256 resolution may not perform best due to insufficient training, but can serve as a good starting point for downstream fine-tuning.
 
 ## Inference Examples
