@@ -1,6 +1,6 @@
 # iVideoGPT: Interactive VideoGPTs are Scalable World Models (NeurIPS 2024)
 
-[[Website]](https://thuml.github.io/iVideoGPT/) [[Paper]](https://arxiv.org/abs/2405.15223) [[Model]](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free)
+[[Website]](https://thuml.github.io/iVideoGPT/) [[Paper]](https://arxiv.org/abs/2405.15223) [[Model]](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free) [[Poster]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/poster.pdf) [[Slides]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/slides.pdf)
 
 This repo provides official code and checkpoints for iVideoGPT, a generic and efficient world model architecture that has been pre-trained on millions of human and robotic manipulation trajectories. 
 
@@ -136,7 +136,7 @@ If you find this project useful, please cite our paper as:
     title={iVideoGPT: Interactive VideoGPTs are Scalable World Models}, 
     author={Jialong Wu and Shaofeng Yin and Ningya Feng and Xu He and Dong Li and Jianye Hao and Mingsheng Long},
     booktitle={Advances in Neural Information Processing Systems},
-    year={2024}
+    year={2024},
 }
 ```
 
