@@ -30,8 +30,6 @@
   ],
   "vq_embed_dim": null,
   "force_upcast": true,
-  "dyn_dim": 256,
-  "num_dyn_tokens": 8,
   "num_dyn_embeddings": 8192,
   "context_length": 1,
   "resolution": 64,
