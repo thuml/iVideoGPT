@@ -27,25 +27,29 @@ pip install -r requirements.txt
 
 At the moment we provide the following models:
 
-| Model | Resolution | Action | Tokenizer Size | Transformer Size |
-| ---- | ---- | ---- | ---- | ---- |
-| [ivideogpt-oxe-64-act-free](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free) | 64x64 | No |  114M   |  138M    |
+| Model | Resolution | Action-cond. | Goal-cond. | Tokenizer Size | Transformer Size |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+| [ivideogpt-oxe-64-act-free](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free) | 64x64 | No | No | 114M   |  138M    |
+| [ivideogpt-oxe-64-act-free-medium](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free-medium) | 64x64 | No | No |  114M   |  436M    |
+| [ivideogpt-oxe-64-goal-cond](https://huggingface.co/thuml/ivideogpt-oxe-64-goal-cond) | 64x64 | No | Yes | 114M   |  138M    |
+| [ivideogpt-oxe-256-act-free](https://huggingface.co/thuml/ivideogpt-oxe-256-act-free) | 256x256 | No | No | 114M   |  138M    |
 
 If no network connection to Hugging Face, you can manually download from [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/ef7d94c798504587a95e/).
 
+**Notes**:
+
+- Due to the heterogeneity of action spaces, we currently do not have a action-conditioned prediction model on OXE.
+- Pre-trained models at 256x256 resolution may not perform best due to insufficient training, but can serve as a good starting point for downstream fine-tuning.
+
 ## Inference Examples
 
-### Action-free Video Prediction on Open X-Embodiment
+For action-free video prediction on Open X-Embodiment, run:
 
 ```bash
 python inference/predict.py --pretrained_model_name_or_path "thuml/ivideogpt-oxe-64-act-free" --input_path inference/samples/fractal_sample.npz --dataset_name fractal20220817_data
 ```
 
-To try more samples, download the dataset from the [Open X-Embodiment Dataset](https://robotics-transformer-x.github.io/) and extract single episodes as follows:
-
-```bash
-python oxe_data_converter.py --dataset_name {dataset_name, e.g. bridge} --input_path {path to OXE} --output_path samples --max_num_episodes 10
-```
+See more examples at [inference](https://github.com/thuml/iVideoGPT/tree/main/inference).
 
 ## Training Video Prediction
 
@@ -128,11 +132,11 @@ python mbrl/train_metaworld_mbpo.py task=plate_slide num_train_frames=100002 dem
 If you find this project useful, please cite our paper as:
 
 ```
-@article{wu2024ivideogpt,
+@inproceedings{wu2024ivideogpt,
     title={iVideoGPT: Interactive VideoGPTs are Scalable World Models}, 
     author={Jialong Wu and Shaofeng Yin and Ningya Feng and Xu He and Dong Li and Jianye Hao and Mingsheng Long},
-    journal={arXiv preprint arXiv:2405.15223},
-    year={2024},
+    booktitle={Advances in Neural Information Processing Systems},
+    year={2024}
 }
 ```
 

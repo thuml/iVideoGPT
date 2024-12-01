@@ -31,6 +31,7 @@ def parse_args():
     parser.add_argument("--segment_length", type=int, default=16,
                         help="number of frames in total, including context and future frames")
     parser.add_argument('--resolution', type=int, default=64, help="resolution of frames")
+    parser.add_argument('--goal_conditioned', default=False, action='store_true', help="goal-conditioned prediction")
 
     parser.add_argument('--repeat_times', default=5, type=int, help="number of times to repeat prediction")
     parser.add_argument("--seed", type=int, default=0, help="random seed")
@@ -39,7 +40,7 @@ def parse_args():
     return args
 
 
-@torch.no_grad
+@torch.no_grad()
 def predict(args, tokenizer, model, input):
     # prepare inputs
     pixel_values = input.to(device, non_blocking=True).unsqueeze(0)
@@ -92,6 +93,9 @@ def main():
 
     npz_parser = NPZParser(args.segment_length, args.resolution)
     input = npz_parser.parse(args.input_path, args.dataset_name)
+
+    if args.goal_conditioned:
+        input = torch.concat([input[-1:], input[:-1]], dim=0)
 
     predict(args, tokenizer, model, input)
 
