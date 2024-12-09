@@ -1,6 +1,6 @@
-# iVideoGPT: Interactive VideoGPTs are Scalable World Models (NeurIPS 2024)
+# 🌏 iVideoGPT: Interactive VideoGPTs are Scalable World Models (NeurIPS 2024)
 
-[[Website]](https://thuml.github.io/iVideoGPT/) [[Paper]](https://arxiv.org/abs/2405.15223) [[Model]](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free) [[Poster]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/poster.pdf) [[Slides]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/slides.pdf)
+[[Project Page]](https://thuml.github.io/iVideoGPT/) [[Paper]](https://arxiv.org/abs/2405.15223) [[Models]](https://huggingface.co/collections/thuml/ivideogpt-674c59cae32231024d82d6c5) [[Poster]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/poster.pdf) [[Slides]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/slides.pdf)
 
 This repo provides official code and checkpoints for iVideoGPT, a generic and efficient world model architecture that has been pre-trained on millions of human and robotic manipulation trajectories. 
 
@@ -41,6 +41,18 @@ If no network connection to Hugging Face, you can manually download from [Tsingh
 - Due to the heterogeneity of action spaces, we currently do not have an action-conditioned prediction model on OXE.
 - Pre-trained models at 256x256 resolution may not perform best due to insufficient training, but can serve as a good starting point for downstream fine-tuning.
 
+## Data Preparation
+
+**Open X-Embodiment**: Download datasets from [Open X-Embodiment](https://robotics-transformer-x.github.io/) and extract single episodes as `.npz` files:
+
+```bash
+python datasets/oxe_data_converter.py --dataset_name {dataset name, e.g. bridge} --input_path {path to downloaded OXE} --output_path {path to stored npz}
+```
+
+To replicate our pre-training on OXE, you need to extract all datasets listed under `OXE_SELECT` in `ivideogpt/data/dataset_mixes.py`.
+
+See instructions at [datasets](/datasets) on preprocessing more datasets.
+
 ## Inference Examples
 
 For action-free video prediction on Open X-Embodiment, run:
@@ -49,28 +61,23 @@ For action-free video prediction on Open X-Embodiment, run:
 python inference/predict.py --pretrained_model_name_or_path "thuml/ivideogpt-oxe-64-act-free" --input_path inference/samples/fractal_sample.npz --dataset_name fractal20220817_data
 ```
 
-See more examples at [inference](https://github.com/thuml/iVideoGPT/tree/main/inference).
+See more examples at [inference](/inference).
 
-## Training Video Prediction
+## Pre-training
 
-### Pretrained Models
-
-To finetune our [pretrained iVideoGPT](https://huggingface.co/thuml/ivideogpt-oxe-64-act-free), download it into `pretrained_models/ivideogpt-oxe-64-act-free`.
-
-To evaluate the FVD metric, download [pretrained I3D model](https://www.dropbox.com/s/ge9e5ujwgetktms/i3d_torchscript.pt?dl=1) into `pretrained_models/i3d/i3d_torchscript.pt`.
-
-### Data Preprocessing
-
-**BAIR Robot Pushing**: Download the [dataset](http://rail.eecs.berkeley.edu/datasets/bair_robot_pushing_dataset_v0.tar) and preprocess with the following script:
+To pre-train iVideoGPT, adjust the arguments in the command below as needed and run:
 
 ```bash
-wget http://rail.eecs.berkeley.edu/datasets/bair_robot_pushing_dataset_v0.tar -P .
-tar -xvf ./bair_robot_pushing_dataset_v0.tar -C .
-
-python datasets/preprocess_bair.py --input_path bair_robot_pushing_dataset_v0/softmotion30_44k --save_path bair_preprocessed
+bash ./scripts/pretrain/ivideogpt-oxe-64-act-free.sh
 ```
 
-Then modify the saved paths (e.g. `bair_preprocessed/train` and `bair_preprocessed/test`) in `DATASET.yaml`.
+See more scripts for [pre-trained models](#models) at [scripts/pretrain](/scripts/pretrain).
+
+## Fine-tuning Video Prediction
+
+### Preparation
+
+To evaluate the FVD metric, download [pretrained I3D model](https://www.dropbox.com/s/ge9e5ujwgetktms/i3d_torchscript.pt?dl=1) into `pretrained_models/i3d/i3d_torchscript.pt`.
 
 ### Finetuning Tokenizer
 
@@ -105,7 +112,9 @@ accelerate launch train_gpt.py \
 
 For action-free video prediction, remove `--load_internal_llm --action_conditioned`.
 
-## Training Visual Model-based RL
+<!-- ### Evaluation -->
+
+## Visual Model-based RL
 
 ### Preparation
 
@@ -146,4 +155,4 @@ If you have any question, please contact wujialong0229@gmail.com.
 
 ## Acknowledgement
 
-Our codebase is heavily built upon [huggingface/diffusers](https://github.com/huggingface/diffusers) and [facebookresearch/drqv2](https://github.com/facebookresearch/drqv2).
+Our codebase is based on [huggingface/diffusers](https://github.com/huggingface/diffusers) and [facebookresearch/drqv2](https://github.com/facebookresearch/drqv2).

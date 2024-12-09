@@ -103,6 +103,8 @@ class SimpleRoboticDatasetv2(data.Dataset):
         self, parent_dir, dataset_name,
         # segment
         random_selection,
+        random_shuffle,
+        goal_conditioned,
         segment_length,
         context_length,
         stepsize,
@@ -129,6 +131,8 @@ class SimpleRoboticDatasetv2(data.Dataset):
         self.segment_length = segment_length
         self.context_length = context_length
         self.random_selection = random_selection
+        self.random_shuffle = random_shuffle
+        self.goal_conditioned = goal_conditioned
         self.segment_horizon = segment_horizon or segment_length
         self.stepsize = stepsize
 
@@ -282,7 +286,36 @@ class SimpleRoboticDatasetv2(data.Dataset):
         return fn_idx, b, c, s, h
 
     def get_segment(self, episode, action=None):
-        if self.random_selection:
+        if self.goal_conditioned:
+            segment_length = self.segment_length - 1
+            # shrink stepsize if episode too short
+            if self.stepsize * segment_length > len(episode):
+                stepsize = max(1, len(episode) // segment_length)
+            else:
+                stepsize = self.stepsize
+
+            start = np.random.randint(max(len(episode) - stepsize * segment_length + 1, 1))
+            images = [episode[min(start + stepsize * i, len(episode) - 1)] for i in range(segment_length)]
+            images = images[-1:] + images  # last frame as goal
+            if action is not None:
+                raise NotImplementedError
+            else:
+                actions = None
+        elif self.random_shuffle:
+            # shrink stepsize if episode too short
+            if self.stepsize * self.segment_horizon > len(episode):
+                stepsize = max(1, len(episode) // self.segment_horizon)
+            else:
+                stepsize = self.stepsize
+
+            start = np.random.randint(max(len(episode) - stepsize * self.segment_horizon + 1, 1))
+            idx = np.random.choice(self.segment_horizon, self.segment_length, replace=False)
+            images = [episode[min(start + stepsize * i, len(episode) - 1)] for i in idx]
+            if action is not None:
+                raise NotImplementedError
+            else:
+                actions = None
+        elif self.random_selection:
             # shrink stepsize if episode too short
             if self.stepsize * self.segment_horizon > len(episode):
                 stepsize = max(1, len(episode) // self.segment_horizon)

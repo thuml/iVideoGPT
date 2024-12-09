@@ -79,6 +79,8 @@ def get_dataloaders(args):
         }
     segment_args = {
         'random_selection': False,
+        'random_shuffle': False,
+        'goal_conditioned': args.goal_conditioned,
         'segment_length': args.segment_length,
         'context_length': args.context_length,
         'stepsize': args.video_stepsize,
@@ -288,6 +290,7 @@ def parse_args():
     parser.add_argument('--action_conditioned', default=False, action='store_true')
     parser.add_argument('--action_dim', default=4, type=int, help='action dimension for the task')
     parser.add_argument('--embed_no_wd', default=False, action='store_true')
+    parser.add_argument('--goal_conditioned', default=False, action='store_true')
 
     # evaluation
     parser.add_argument('--max_eval_iters', default=100, type=int)

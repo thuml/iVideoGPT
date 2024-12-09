@@ -251,7 +251,7 @@ def parse_args():
     parser.add_argument("--segment_horizon", type=int, default=16)
     parser.add_argument('--video_stepsize', default=1, type=int)
     parser.add_argument('--rand_select', default=False, action='store_true')
-    parser.add_argument("--use_datasets", default=False, action="store_true", help="Whether to use RoboticDatasets.")
+    parser.add_argument('--rand_shuffle', default=False, action='store_true')
     parser.add_argument('--model_type', default='vqgan', type=str, choices=['vqgan', 'ctx_vqgan'], help='Type of model to use')
     parser.add_argument('--dataset_path', default='/data2/tensorflow_datasets',
                         type=str, help='Path to the tensorflow datasets')
@@ -351,9 +351,11 @@ def main():
                 config = json.load(open("configs/ctx_vae64/config.json"))
                 config.update({"context_length": args.context_length})
                 model = CompressiveVQModel(**config)
-            else:
+            elif args.resolution == 256:
                 config = json.load(open("configs/ctx_vae/config.json"))
                 model = CompressiveVQModel(**config)
+            else:
+                raise NotImplementedError
         else:
             raise NotImplementedError
             config = json.load(open("configs/vae/config.json"))
@@ -474,6 +476,8 @@ def main():
         }
     segment_args = {
         'random_selection': args.rand_select,
+        'random_shuffle': args.rand_shuffle,
+        'goal_conditioned': False,
         'segment_length': args.segment_length,
         'context_length': args.context_length,
         'stepsize': args.video_stepsize,

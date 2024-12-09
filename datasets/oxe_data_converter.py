@@ -4,7 +4,21 @@ from tqdm import tqdm
 import argparse
 import tensorflow_datasets as tfds
 
-from utils import DISPLAY_KEY
+
+DISPLAY_KEY = {
+    'taco_play': 'rgb_static',
+    'roboturk': 'front_rgb',
+    'viola': 'agentview_rgb',
+    'language_table': 'rgb',
+    'stanford_robocook_converted_externally_to_rlds1': 'image_1',
+    'stanford_robocook_converted_externally_to_rlds2': 'image_2',
+    'stanford_robocook_converted_externally_to_rlds3': 'image_3',
+    'stanford_robocook_converted_externally_to_rlds4': 'image_4',
+    'uiuc_d3field1': 'image_1',
+    'uiuc_d3field2': 'image_2',
+    'uiuc_d3field3': 'image_3',
+    'uiuc_d3field4': 'image_4',
+}
 
 
 def get_dataset_path(parent_dir, dataset_name):
@@ -25,7 +39,7 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_name', type=str, default='fractal20220817_data')
     parser.add_argument('--input_path', type=str, default='/data3/tensorflow_datasets')
     parser.add_argument('--output_path', type=str, default='inputs')
-    parser.add_argument('--max_num_episodes', default=10, type=int)
+    parser.add_argument('--max_num_episodes', default=None, type=int)
     args = parser.parse_args()
 
     dataset_name = args.dataset_name
@@ -45,5 +59,5 @@ if __name__ == "__main__":
             np.savez_compressed(os.path.join(root_path, f'{key}_eps_{i:08d}.npz'), **{display_key: frames})
 
             num_episodes += 1
-            if num_episodes >= args.max_num_episodes:
+            if args.max_num_episodes is not None and num_episodes >= args.max_num_episodes:
                 break
