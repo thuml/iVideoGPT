@@ -71,7 +71,7 @@ To pre-train iVideoGPT, adjust the arguments in the command below as needed and 
 bash ./scripts/pretrain/ivideogpt-oxe-64-act-free.sh
 ```
 
-See more scripts for [pre-trained models](#models) at [scripts/pretrain](/scripts/pretrain).
+See more scripts for [pre-trained models](#-models) at [scripts/pretrain](/scripts/pretrain).
 
 ## 🎇 Fine-tuning Video Prediction
 
