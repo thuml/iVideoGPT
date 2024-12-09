@@ -23,6 +23,8 @@ conda activate ivideogpt
 pip install -r requirements.txt
 ```
 
+To evaluate the FVD metric, download the [pretrained I3D model](https://www.dropbox.com/s/ge9e5ujwgetktms/i3d_torchscript.pt?dl=1) into `pretrained_models/i3d/i3d_torchscript.pt`.
+
 ## 🤗 Models
 
 At the moment we provide the following models:
@@ -74,10 +76,6 @@ bash ./scripts/pretrain/ivideogpt-oxe-64-act-free.sh
 See more scripts for [pre-trained models](#-models) at [`scripts/pretrain`](/scripts/pretrain).
 
 ## 🎇 Fine-tuning Video Prediction
-
-### Preparation
-
-To evaluate the FVD metric, download [pretrained I3D model](https://www.dropbox.com/s/ge9e5ujwgetktms/i3d_torchscript.pt?dl=1) into `pretrained_models/i3d/i3d_torchscript.pt`.
 
 ### Finetuning Tokenizer
 
