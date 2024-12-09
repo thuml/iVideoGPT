@@ -51,7 +51,7 @@ python datasets/oxe_data_converter.py --dataset_name {dataset name, e.g. bridge}
 
 To replicate our pre-training on OXE, you need to extract all datasets listed under `OXE_SELECT` in `ivideogpt/data/dataset_mixes.py`.
 
-See instructions at [datasets](/datasets) on preprocessing more datasets.
+See instructions at [`datasets`](/datasets) on preprocessing more datasets.
 
 ## 🚀 Inference Examples
 
@@ -61,7 +61,7 @@ For action-free video prediction on Open X-Embodiment, run:
 python inference/predict.py --pretrained_model_name_or_path "thuml/ivideogpt-oxe-64-act-free" --input_path inference/samples/fractal_sample.npz --dataset_name fractal20220817_data
 ```
 
-See more examples at [inference](/inference).
+See more examples at [`inference`](/inference).
 
 ## 🌟 Pre-training
 
@@ -71,7 +71,7 @@ To pre-train iVideoGPT, adjust the arguments in the command below as needed and 
 bash ./scripts/pretrain/ivideogpt-oxe-64-act-free.sh
 ```
 
-See more scripts for [pre-trained models](#-models) at [scripts/pretrain](/scripts/pretrain).
+See more scripts for [pre-trained models](#-models) at [`scripts/pretrain`](/scripts/pretrain).
 
 ## 🎇 Fine-tuning Video Prediction
 
