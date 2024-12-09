@@ -6,7 +6,7 @@ This repo provides official code and checkpoints for iVideoGPT, a generic and ef
 
 ![architecture](assets/architecture.png)
 
-## News
+## 🔥 News
 
 - 🚩 **2024.11.01**: NeurIPS 2024 camera-ready version is released on [arXiv](https://arxiv.org/abs/2405.15223v3).
 - 🚩 **2024.09.26**: iVideoGPT has been accepted by NeurIPS 2024, congrats!
@@ -15,7 +15,7 @@ This repo provides official code and checkpoints for iVideoGPT, a generic and ef
 - 🚩 **2024.05.30**: Model pre-trained on Open X-Embodiment and inference code are released.
 - 🚩 **2024.05.27**: Our paper is released on [arXiv](https://arxiv.org/abs/2405.15223v1).
 
-## Installation
+## 🛠️ Installation
 
 ```bash
 conda create -n ivideogpt python==3.9
@@ -23,7 +23,7 @@ conda activate ivideogpt
 pip install -r requirements.txt
 ```
 
-## Models
+## 🤗 Models
 
 At the moment we provide the following models:
 
@@ -41,7 +41,7 @@ If no network connection to Hugging Face, you can manually download from [Tsingh
 - Due to the heterogeneity of action spaces, we currently do not have an action-conditioned prediction model on OXE.
 - Pre-trained models at 256x256 resolution may not perform best due to insufficient training, but can serve as a good starting point for downstream fine-tuning.
 
-## Data Preparation
+## 📦 Data Preparation
 
 **Open X-Embodiment**: Download datasets from [Open X-Embodiment](https://robotics-transformer-x.github.io/) and extract single episodes as `.npz` files:
 
@@ -53,7 +53,7 @@ To replicate our pre-training on OXE, you need to extract all datasets listed un
 
 See instructions at [datasets](/datasets) on preprocessing more datasets.
 
-## Inference Examples
+## 🚀 Inference Examples
 
 For action-free video prediction on Open X-Embodiment, run:
 
@@ -63,7 +63,7 @@ python inference/predict.py --pretrained_model_name_or_path "thuml/ivideogpt-oxe
 
 See more examples at [inference](/inference).
 
-## Pre-training
+## 🌟 Pre-training
 
 To pre-train iVideoGPT, adjust the arguments in the command below as needed and run:
 
@@ -73,7 +73,7 @@ bash ./scripts/pretrain/ivideogpt-oxe-64-act-free.sh
 
 See more scripts for [pre-trained models](#models) at [scripts/pretrain](/scripts/pretrain).
 
-## Fine-tuning Video Prediction
+## 🎇 Fine-tuning Video Prediction
 
 ### Preparation
 
@@ -114,7 +114,7 @@ For action-free video prediction, remove `--load_internal_llm --action_condition
 
 <!-- ### Evaluation -->
 
-## Visual Model-based RL
+## 🤖 Visual Model-based RL
 
 ### Preparation
 
@@ -132,11 +132,11 @@ Modify paths in `mbrl/cfgs/mbpo_config.yaml` to your own paths (currently only s
 python mbrl/train_metaworld_mbpo.py task=plate_slide num_train_frames=100002 demo=true
 ```
 
-## Showcases
+## 🎥 Showcases
 
 ![showcase](assets/showcase.png)
 
-## Citation
+## 📜 Citation
 
 If you find this project useful, please cite our paper as:
 
@@ -149,10 +149,10 @@ If you find this project useful, please cite our paper as:
 }
 ```
 
-## Contact
+## 🤝 Contact
 
 If you have any question, please contact wujialong0229@gmail.com.
 
-## Acknowledgement
+## 💡 Acknowledgement
 
 Our codebase is based on [huggingface/diffusers](https://github.com/huggingface/diffusers) and [facebookresearch/drqv2](https://github.com/facebookresearch/drqv2).
