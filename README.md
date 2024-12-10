@@ -79,6 +79,8 @@ See more scripts for [pre-trained models](#-models) at [`scripts/pretrain`](/scr
 
 ### Finetuning Tokenizer
 
+After preparing the [BAIR](/datasets#bair-robot-pushing) dataset, run the following:
+
 ```bash
 accelerate launch train_tokenizer.py \
     --exp_name bair_tokenizer_ft --output_dir log_vqgan --seed 0 --mixed_precision bf16 \
