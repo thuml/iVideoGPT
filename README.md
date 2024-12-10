@@ -45,7 +45,7 @@ If no network connection to Hugging Face, you can manually download from [Tsingh
 
 ## 📦 Data Preparation
 
-**Open X-Embodiment**: Download datasets from [Open X-Embodiment](https://robotics-transformer-x.github.io/) and extract single episodes as `.npz` files:
+**Open X-Embodiment**: Download datasets from [Open X-Embodiment](https://github.com/google-deepmind/open_x_embodiment) and extract single episodes as `.npz` files:
 
 ```bash
 python datasets/oxe_data_converter.py --dataset_name {dataset name, e.g. bridge} --input_path {path to downloaded OXE} --output_path {path to stored npz}

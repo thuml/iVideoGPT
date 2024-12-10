@@ -22,7 +22,7 @@ python inference/predict.py --pretrained_model_name_or_path "thuml/ivideogpt-oxe
 
 ## More Samples
 
-To try more samples, download datasets from [Open X-Embodiment](https://robotics-transformer-x.github.io/) and extract single episodes as follows:
+To try more samples, download datasets from [Open X-Embodiment](https://github.com/google-deepmind/open_x_embodiment) and extract single episodes as follows:
 
 ```bash
 python datasets/oxe_data_converter.py --dataset_name {dataset_name, e.g. bridge} --input_path {path to OXE} --output_path inference/samples --max_num_episodes 10

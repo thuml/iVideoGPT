@@ -31,7 +31,7 @@
   "vq_embed_dim": null,
   "force_upcast": true,
   "num_dyn_embeddings": 8192,
-  "context_length": 1,
+  "context_length": 2,
   "resolution": 64,
   "max_att_resolution": 16
 }
