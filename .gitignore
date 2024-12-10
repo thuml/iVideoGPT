@@ -7,3 +7,4 @@ tmp
 log_*
 mbrl/demonstrations
 .gitignore
+*_preprocessed

@@ -29,4 +29,20 @@ python datasets/preprocess_bair.py --input_path bair_robot_pushing_dataset_v0/so
 
 Then modify the saved paths (e.g. `bair_preprocessed/train` and `bair_preprocessed/test`) in `DATASET.yaml`.
 
-<!-- ## RoboNet -->
+## RoboNet
+
+Follow the [RoboNet Wiki](https://github.com/SudeepDasari/RoboNet/wiki/Getting-Started) to download the dataset:
+
+```bash
+pip install gdown
+gdown https://drive.google.com/a/andrew.cmu.edu/uc?id=1BkqHzfRkfzgzCfc73NbNnPMK_rg3i1n9&export=download
+tar -xzvf robonet_v3.tar.gz
+```
+
+Preprocess the data:
+
+```bash
+python datasets/preprocess_robonet.py --hdf5_path robonet_data/all_hdf5_data/hdf5 --save_path robonet_preprocessed
+```
+
+Then modify the saved paths (e.g. `robonet_preprocessed/train` and `robonet_preprocessed/test`) in `DATASET.yaml`.
