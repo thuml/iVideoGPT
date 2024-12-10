@@ -1,6 +1,6 @@
 # 🌏 iVideoGPT: Interactive VideoGPTs are Scalable World Models (NeurIPS 2024)
 
-[[Project Page]](https://thuml.github.io/iVideoGPT/) [[Paper]](https://arxiv.org/abs/2405.15223) [[Models]](https://huggingface.co/collections/thuml/ivideogpt-674c59cae32231024d82d6c5) [[Poster]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/poster.pdf) [[Slides]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/slides.pdf)
+[[Project Page]](https://thuml.github.io/iVideoGPT/) [[Paper]](https://arxiv.org/abs/2405.15223) [[Models]](https://huggingface.co/collections/thuml/ivideogpt-674c59cae32231024d82d6c5) [[Poster]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/poster.pdf) [[Slides]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/slides.pdf) [[Blog (In Chinese)]](https://mp.weixin.qq.com/s/D94aamdqtO9WLekr4BSCUw)
 
 This repo provides official code and checkpoints for iVideoGPT, a generic and efficient world model architecture that has been pre-trained on millions of human and robotic manipulation trajectories. 
 
