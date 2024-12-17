@@ -38,22 +38,23 @@ At the moment we provide the following pre-trained models:
 
 If no network connection to Hugging Face, you can manually download from [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/ef7d94c798504587a95e/).
 
-<details>
-  <summary>More models on downstream tasks</summary>
+**Notes**:
 
+- Due to the heterogeneity of action spaces, we currently do not have an action-conditioned prediction model on OXE.
+- Pre-trained models at 256x256 resolution may not perform best due to insufficient training, but can serve as a good starting point for downstream fine-tuning.
+
+<details>
+  <summary><b>More models on downstream tasks</b></summary>
+  <br>
+  
 | Model | Resolution | Action-conditioned | Goal-conditioned | Tokenizer Size | Transformer Size |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | [ivideogpt-bair-64-act-free](https://huggingface.co/thuml/ivideogpt-bair-64-act-free) | 64x64 | Yes | No |  114M   |  138M    |
 | [ivideogpt-bair-64-act-cond](https://huggingface.co/thuml/ivideogpt-bair-64-act-cond) | 64x64 | Yes | No | 114M   |  138M    |
 | [ivideogpt-robonet-64-act-cond](https://huggingface.co/thuml/ivideogpt-robonet-64-act-cond) | 64x64 | Yes | No |  114M   |  138M    |
 
-We are sorry that the models for RoboNet at 256x256 resolution were deleted by mistake during a disk cleanup, we will retrain and release them as soon as possible! 
+- We are sorry that the models for RoboNet at 256x256 resolution were deleted by mistake during a disk cleanup, we will retrain and release them as soon as possible! 
 </details>
-
-**Notes**:
-
-- Due to the heterogeneity of action spaces, we currently do not have an action-conditioned prediction model on OXE.
-- Pre-trained models at 256x256 resolution may not perform best due to insufficient training, but can serve as a good starting point for downstream fine-tuning.
 
 ## 📦 Data Preparation
 
