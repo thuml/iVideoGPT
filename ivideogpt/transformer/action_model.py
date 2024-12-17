@@ -94,7 +94,7 @@ class HeadModelWithAction(nn.Module):
                 predicted_token = result.sequences
                 last_token_hidden_states = result.hidden_states[-1]
                 last_layer_states = last_token_hidden_states[-1]
-                rewards.append(self.reward_linear(last_layer_states).squeeze(-1))
+                rewards.append(self.reward_linear(last_layer_states).squeeze(-1))  # TODO: check, currently not used
             else:
                 predicted_token = self.llm.generate(
                     inputs_embeds=inputs_embeds,
