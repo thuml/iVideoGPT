@@ -27,7 +27,7 @@ To evaluate the FVD metric, download the [pretrained I3D model](https://www.drop
 
 ## 🤗 Models
 
-At the moment we provide the following models:
+At the moment we provide the following pre-trained models:
 
 | Model | Resolution | Action-conditioned | Goal-conditioned | Tokenizer Size | Transformer Size |
 | ---- | ---- | ---- | ---- | ---- | ---- |
@@ -37,6 +37,18 @@ At the moment we provide the following models:
 | [ivideogpt-oxe-256-act-free](https://huggingface.co/thuml/ivideogpt-oxe-256-act-free) | 256x256 | No | No | 310M   |  138M    |
 
 If no network connection to Hugging Face, you can manually download from [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/d/ef7d94c798504587a95e/).
+
+<details>
+  <summary>More models on downstream tasks</summary>
+
+| Model | Resolution | Action-conditioned | Goal-conditioned | Tokenizer Size | Transformer Size |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+| [ivideogpt-bair-64-act-free](https://huggingface.co/thuml/ivideogpt-bair-64-act-free) | 64x64 | Yes | No |  114M   |  138M    |
+| [ivideogpt-bair-64-act-cond](https://huggingface.co/thuml/ivideogpt-bair-64-act-cond) | 64x64 | Yes | No | 114M   |  138M    |
+| [ivideogpt-robonet-64-act-cond](https://huggingface.co/thuml/ivideogpt-robonet-64-act-cond) | 64x64 | Yes | No |  114M   |  138M    |
+
+We are sorry that the models for RoboNet at 256x256 resolution were deleted by mistake during a disk cleanup, we will retrain and release them as soon as possible! 
+</details>
 
 **Notes**:
 
