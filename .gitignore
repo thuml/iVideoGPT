@@ -8,3 +8,5 @@ log_*
 mbrl/demonstrations
 .gitignore
 *_preprocessed
+*.log
+.git
