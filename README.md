@@ -49,7 +49,7 @@ If no network connection to Hugging Face, you can manually download from [Tsingh
   
 | Model | Resolution | Action-conditioned | Goal-conditioned | Tokenizer Size | Transformer Size |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| [ivideogpt-bair-64-act-free](https://huggingface.co/thuml/ivideogpt-bair-64-act-free) | 64x64 | Yes | No |  114M   |  138M    |
+| [ivideogpt-bair-64-act-free](https://huggingface.co/thuml/ivideogpt-bair-64-act-free) | 64x64 | No | No |  114M   |  138M    |
 | [ivideogpt-bair-64-act-cond](https://huggingface.co/thuml/ivideogpt-bair-64-act-cond) | 64x64 | Yes | No | 114M   |  138M    |
 | [ivideogpt-robonet-64-act-cond](https://huggingface.co/thuml/ivideogpt-robonet-64-act-cond) | 64x64 | Yes | No |  114M   |  138M    |
 
