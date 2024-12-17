@@ -53,7 +53,7 @@ If no network connection to Hugging Face, you can manually download from [Tsingh
 | [ivideogpt-bair-64-act-cond](https://huggingface.co/thuml/ivideogpt-bair-64-act-cond) | 64x64 | Yes | No | 114M   |  138M    |
 | [ivideogpt-robonet-64-act-cond](https://huggingface.co/thuml/ivideogpt-robonet-64-act-cond) | 64x64 | Yes | No |  114M   |  138M    |
 
-- We are sorry that the models for RoboNet at 256x256 resolution were deleted by mistake during a disk cleanup, we will retrain and release them as soon as possible! 
+- We are sorry that the checkpoints for RoboNet at 256x256 resolution were deleted by mistake during a disk cleanup, we will retrain and release them as soon as possible! 
 </details>
 
 ## 📦 Data Preparation
