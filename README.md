@@ -127,7 +127,7 @@ For action-free video prediction, remove `--load_internal_llm --action_condition
 
 ### Evaluation
 
-To evaluate the checkpoints only, run
+To evaluate the checkpoints only, run:
 
 ```bash
 bash ./scripts/evaluation/bair-64-act-cond.sh
