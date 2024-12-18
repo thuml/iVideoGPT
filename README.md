@@ -125,7 +125,15 @@ accelerate launch train_gpt.py \
 
 For action-free video prediction, remove `--load_internal_llm --action_conditioned`.
 
-<!-- ### Evaluation -->
+### Evaluation
+
+To evaluate the checkpoints only, run
+
+```bash
+bash ./scripts/evaluation/bair-64-act-cond.sh
+```
+
+See more scripts for [released checkpoints](#-models) at [`scripts/evaluation`](/scripts/evaluation).
 
 ## 🤖 Visual Model-based RL
 
