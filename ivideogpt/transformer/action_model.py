@@ -81,6 +81,8 @@ class HeadModelWithAction(nn.Module):
                           (self.tokens_num_per_dyna + 1), :] += action_embeds[:, i + self.context - 1, :]
 
             if self.reward_prediction:
+                # !TODO: bug fix, currently not used
+                # !See line 298-313 in mbrl/video_predictor.py for correct reward prediction
                 result = self.llm.generate(
                     inputs_embeds=inputs_embeds,
                     do_sample=do_sample,
@@ -94,7 +96,7 @@ class HeadModelWithAction(nn.Module):
                 predicted_token = result.sequences
                 last_token_hidden_states = result.hidden_states[-1]
                 last_layer_states = last_token_hidden_states[-1]
-                rewards.append(self.reward_linear(last_layer_states).squeeze(-1))  # TODO: check, currently not used
+                rewards.append(self.reward_linear(last_layer_states).squeeze(-1))
             else:
                 predicted_token = self.llm.generate(
                     inputs_embeds=inputs_embeds,
