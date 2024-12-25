@@ -68,9 +68,9 @@ class Workspace:
         # create envs
         self.cfg.task_name = "-".join(self.cfg.task_name.split("_"))
         self.train_env = metaworld_env.make(self.cfg.task_name, self.cfg.frame_stack,
-                                       self.cfg.action_repeat, self.cfg.seed, self.cfg.camera, self.cfg.duration, self.cfg.succ_bonus, self.cfg.legacy_reward)
+                                       self.cfg.action_repeat, self.cfg.seed, self.cfg.camera, self.cfg.duration, self.cfg.succ_bonus)
         self.eval_env = metaworld_env.make(self.cfg.task_name, self.cfg.frame_stack,
-                                      self.cfg.action_repeat, self.cfg.seed, self.cfg.camera, self.cfg.duration, self.cfg.succ_bonus, self.cfg.legacy_reward)
+                                      self.cfg.action_repeat, self.cfg.seed, self.cfg.camera, self.cfg.duration, self.cfg.succ_bonus)
         # create replay buffer
         data_specs = (self.train_env.observation_spec(),
                       self.train_env.action_spec(),
