@@ -367,7 +367,7 @@ def main():
                 low_cpu_mem_usage=False, device_map=None,
                 ignore_mismatched_sizes=True
             )
-            if args.pretrained_model_name_or_path == "configs/ctx_vae":
+            if args.pretrained_model_name_or_path == "pretrained_models/amused/vqvae":
                 model.init_modules()
             if args.context_length != model.context_length:
                 print(
