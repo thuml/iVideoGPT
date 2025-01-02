@@ -4,7 +4,8 @@ accelerate launch train_tokenizer.py \
     --train_batch_size 16 --gradient_accumulation_steps 1 --disc_start 1000005 \
     --oxe_data_mixes_type bair --resolution 64 --dataloader_num_workers 16 \
     --rand_select --video_stepsize 1 --segment_horizon 16 --segment_length 8 --context_length 1 \
-    --pretrained_model_name_or_path pretrained_models/ivideogpt-oxe-64-act-free/tokenizer
+    --pretrained_model_name_or_path pretrained_models/ivideogpt-oxe-64-act-free/tokenizer \
+    --max_train_steps 200005
 
 
 accelerate launch train_gpt.py \
@@ -18,4 +19,5 @@ accelerate launch train_gpt.py \
     --oxe_data_mixes_type bair --resolution 64 --dataloader_num_workers 16 \
     --video_stepsize 1 --segment_length 16 --context_length 1 \
     --use_eval_dataset --use_fvd --use_frame_metrics \
-    --weight_decay 0.01 --llama_attn_drop 0.1 --embed_no_wd
+    --weight_decay 0.01 --llama_attn_drop 0.1 --embed_no_wd \
+    --max_train_steps 70005
