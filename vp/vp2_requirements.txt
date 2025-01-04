@@ -1,0 +1,22 @@
+peft==0.10.0
+huggingface_hub==0.25
+dm_control==1.0.3.post1
+opencv-python==4.5.5.62
+gym==0.19.0
+glfw==1.12.0
+h5py==3.6.0
+hydra-core==1.1.2
+moviepy==1.0.3
+stable-baselines3==1.4.0
+scikit-image==0.19.3
+scikit-learn==1.0.2
+lpips==0.1.4
+piq==0.6.0
+ipdb
+numpy==1.23.5
+-e .
+git+https://github.com/google-research/robodesk.git@a8edde34f879242730c026dfe7c6e3beb4318023
+git+https://github.com/s-tian/iGibson.git@27216bf037436235814ec7a0843eb2b8a4e0376d
+git+git@github.com:s-tian/iGibson.git@27216bf037436235814ec7a0843eb2b8a4e0376d
+git+https://github.com/s-tian/robosuite.git@163e4d42866ecbb42c439fe0be4d5d52bb8320a1
+git+https://github.com/s-tian/robomimic.git@1609a7ae4da4acc7aaab14ef731fdda82f5a7225

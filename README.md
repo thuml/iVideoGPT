@@ -139,9 +139,9 @@ bash ./scripts/evaluation/bair-64-act-cond.sh
 
 See more scripts for [released checkpoints](#-models) at [`scripts/evaluation`](/scripts/evaluation).
 
-## 🤖 Visual Model-based RL
+## 🤖 Visual Control
 
-### Preparation
+### Visual Model-based RL
 
 Install the Metaworld version we used:
 
@@ -151,11 +151,15 @@ pip install git+https://github.com/Farama-Foundation/Metaworld.git@83ac03ca3207c
 
 Modify paths in `mbrl/cfgs/mbpo_config.yaml` to your own paths (currently only support absolute paths).
 
-### MBRL with iVideoGPT
+Run model-based RL with iVideoGPT:
 
 ```bash
 python mbrl/train_metaworld_mbpo.py task=plate_slide num_train_frames=100002 demo=true
 ```
+
+### Visual Planning
+
+See [`vp`](/vp) for detailed instructions.
 
 ## 🎥 Showcases
 
