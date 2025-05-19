@@ -2,7 +2,7 @@
 
 ## Installation
 
-Clone the repository of [VP2](https://github.com/s-tian/vp2) and install the required dependencies following its instructions of VP2. 
+Clone the repository of [VP2](https://github.com/s-tian/vp2) and install the required dependencies as well as the data containing task instance specifications following the instructions of VP2. 
 
 We have made sure that there are no dependency conflicts between ivideogpt and vp2, so if you encounter trouble in the environments, you can follow these: 
 
