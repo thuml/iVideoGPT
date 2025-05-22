@@ -8,6 +8,7 @@ This repo provides official code and checkpoints for iVideoGPT, a generic and ef
 
 ## 🔥 News
 
+- 🚩 **2025.05.21**: We are excited to release a new work, [RLVR-World](https://github.com/thuml/RLVR-World), demonstrating that iVideoGPTs can be improved by reinforcement learning with verifiable rewards (RLVR)!
 - 🚩 **2024.11.01**: NeurIPS 2024 camera-ready version is released on [arXiv](https://arxiv.org/abs/2405.15223v3).
 - 🚩 **2024.09.26**: iVideoGPT has been accepted by NeurIPS 2024, congrats!
 - 🚩 **2024.08.31**: Training code is released.
