@@ -12,7 +12,7 @@ from ivideogpt.vq_model import CompressiveVQModel
 from ivideogpt.transformer import HeadModelWithAction
 from utils import NPZParser
 
-device = 'cuda'
+device = 'cuda' if torch.cuda.is_available() else ('mps' if torch.backends.mps.is_available() else 'cpu')
 
 
 def set_seed(seed: int):
@@ -61,11 +61,18 @@ def predict(args, tokenizer, model, input, actions=None):
         'top_k': 100,
         'max_new_tokens': max_new_tokens,
     }
+    batched_input = gen_input.repeat(args.repeat_times, 1)
+    # act-free path uses HF LlamaForCausalLM.generate, which on MPS needs an explicit
+    # attention_mask; the action-conditioned HeadModelWithAction.generate has a custom
+    # signature that masks internally and rejects attention_mask.
+    extra = {'action': actions.repeat(args.repeat_times, 1, 1)} if actions is not None else {}
+    if actions is None:
+        extra['attention_mask'] = torch.ones_like(batched_input)
     generated_tokens = model.generate(
-        gen_input.repeat(args.repeat_times, 1),
+        batched_input,
         **gen_kwargs,
         pad_token_id=50256,  # this is out of vocabulary but suppressing warning
-        **({'action': actions.repeat(args.repeat_times, 1, 1)} if actions is not None else {}),
+        **extra,
     )
 
     # generated_tokens will include gen_input
