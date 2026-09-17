@@ -9,4 +9,6 @@ mbrl/demonstrations
 .gitignore
 *_preprocessed
 *.log
+/data
 .git
+.venv
