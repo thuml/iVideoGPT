@@ -1,3 +1,52 @@
+> **Fork notice** — this fork fine-tunes the action-conditioned iVideoGPT on [BridgeData V2](https://rail-berkeley.github.io/bridgedata/) on a MacBook (Apple Silicon / MPS) and adds a held-out evaluation pipeline. Upstream: [thuml/iVideoGPT](https://github.com/thuml/iVideoGPT). Original README below the results.
+
+# Bridge V2 fine-tune on Apple Silicon (this fork)
+
+Fine-tuned the OXE-pretrained, action-free 64px model into an **action-conditioned (7-DoF) world model** on BridgeData V2 episodes, entirely on a MacBook via MPS. 3,000 steps, frozen tokenizer, 120 training / 20 held-out episodes.
+
+## Results
+
+Held-out rollouts: 40 segments from 20 unseen episodes, 2 context frames + 14 predicted frames, 64x64, seed 0 (`inference/eval_bridge.py`):
+
+| Model | PSNR ↑ | SSIM ↑ | LPIPS ↓ | FVD ↓ |
+|---|---|---|---|---|
+| **fine-tuned, action-conditioned** | **19.65 ± 2.87** | **0.741 ± 0.108** | **0.164 ± 0.069** | **445.5** |
+| pretrained act-free (zero-shot) | 17.52 ± 2.23 | 0.684 ± 0.101 | 0.207 ± 0.068 | 548.2 |
+
+Ground truth | fine-tuned | zero-shot baseline:
+
+![rollout 0](assets/bridge_eval/val_eps_00000000-gt-vs-pred.gif)
+![rollout 1](assets/bridge_eval/val_eps_00000001-gt-vs-pred.gif)
+![rollout 2](assets/bridge_eval/val_eps_00000002-gt-vs-pred.gif)
+![rollout 3](assets/bridge_eval/val_eps_00000003-gt-vs-pred.gif)
+
+## Found: silent MPS numerical bug in the VQ decoder
+
+On PyTorch 2.2 MPS, the pretrained `ctx_vqgan` **decoder** produces wrong pixels: pure tokenize→detokenize reconstruction drops to ~12–16 PSNR on MPS vs ~24–31 PSNR on CPU — silently, no errors. Token ids from `tokenize()` are **bit-identical** between CPU and MPS, and transformer logits match to 1e-6, so training on MPS is unaffected (loss is computed on token ids), but every decoded rollout, GIF, and pixel metric is corrupted. Workaround used here: generate on MPS, `detokenize()` on a CPU copy of the tokenizer (see `inference/eval_bridge.py`).
+
+## What this fork adds
+
+- `datasets/bridge_v2_extract.py` — extract Bridge V2 episodes from locally downloaded TFDS shards (works with partial downloads) to per-episode `.npz`
+- `scripts/finetune/bridge-64-act-cond-mac.sh` — action-conditioned fine-tune config for MPS
+- `inference/eval_bridge.py` — held-out evaluation: PSNR / SSIM / LPIPS / FVD + side-by-side GIFs, fine-tuned vs zero-shot baseline, with the CPU-decode workaround
+- MPS fixes: device fallback in `inference/predict.py`, `attention_mask` for act-free generation on MPS, self-contained checkpoint export for the action-conditioned wrapper in `train_gpt.py`
+
+## Reproduce
+
+```bash
+# 1. extract episodes (after downloading bridge_dataset TFDS shards into data/bridge_dataset)
+python datasets/bridge_v2_extract.py --split train --output_path data/bridge_npz/train --max_num_episodes 120
+python datasets/bridge_v2_extract.py --split val --output_path data/bridge_npz/val --max_num_episodes 20
+
+# 2. fine-tune (Apple Silicon)
+STEPS=3000 bash scripts/finetune/bridge-64-act-cond-mac.sh
+
+# 3. evaluate
+PYTHONPATH=.:inference python -u inference/eval_bridge.py --run_dir log_trm/<run-dir>
+```
+
+---
+
 # 🌏 iVideoGPT: Interactive VideoGPTs are Scalable World Models (NeurIPS 2024)
 
 [[Project Page]](https://thuml.github.io/iVideoGPT/) [[Paper]](https://arxiv.org/abs/2405.15223) [[Models]](https://huggingface.co/collections/thuml/ivideogpt-674c59cae32231024d82d6c5) [[Poster]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/poster.pdf) [[Slides]](https://manchery.github.io/assets/pub/nips2024_ivideogpt/slides.pdf) [[Blog (In Chinese)]](https://mp.weixin.qq.com/s/D94aamdqtO9WLekr4BSCUw)
