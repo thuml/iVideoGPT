@@ -857,9 +857,27 @@ def start_train():
     if args.output_dir is not None:
         accelerator.wait_for_everyone()
         unwrapped_model = accelerator.unwrap_model(model)
-        unwrapped_model.save_pretrained(
-            args.output_dir, is_main_process=accelerator.is_main_process, save_function=accelerator.save
-        )
+        if args.action_conditioned:
+            # HeadModelWithAction is a custom wrapper (no save_pretrained). Save a
+            # self-contained checkpoint that inference/predict.py loads as-is:
+            # transformer/model.safetensors + config.json, plus the frozen tokenizer.
+            import shutil
+            from safetensors.torch import save_file as _save_file
+            if accelerator.is_main_process:
+                trm_dir = os.path.join(args.output_dir, 'transformer')
+                os.makedirs(trm_dir, exist_ok=True)
+                sd = {k: v.contiguous() for k, v in unwrapped_model.state_dict().items()}
+                _save_file(sd, os.path.join(trm_dir, 'model.safetensors'))
+                shutil.copy(os.path.join(args.pretrained_transformer_path, 'config.json'),
+                            os.path.join(trm_dir, 'config.json'))
+                tok_dst = os.path.join(args.output_dir, 'tokenizer')
+                if os.path.abspath(args.pretrained_model_name_or_path) != os.path.abspath(tok_dst):
+                    shutil.copytree(args.pretrained_model_name_or_path, tok_dst, dirs_exist_ok=True)
+                logger.info(f"Saved action-conditioned checkpoint to {args.output_dir}")
+        else:
+            unwrapped_model.save_pretrained(
+                args.output_dir, is_main_process=accelerator.is_main_process, save_function=accelerator.save
+            )
 
 
 if __name__ == "__main__":
