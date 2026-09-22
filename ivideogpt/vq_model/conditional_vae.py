@@ -49,7 +49,10 @@ class CrossAttentionBlock(nn.Module):
         attn_output, attn_weight = self.att(q, kv, kv)
         attn_output = self.resid_dropout(attn_output)
 
-        attn_output = attn_output.permute(0, 2, 1).reshape(z.shape)  # [B, C, H, W]
+        # .contiguous(): permute+reshape here is a pure view with channels-last strides
+        # (HW*C, 1, W*C, C); the residual sum inherits that layout and on PyTorch <= 2.2 the
+        # MPS SiLU kernel silently returns wrong values for channels-last inputs (issue #29).
+        attn_output = attn_output.permute(0, 2, 1).reshape(z.shape).contiguous()  # [B, C, H, W]
         z = self.act(z + attn_output)
 
         return z
@@ -122,7 +125,7 @@ class ConditionalEncoder(Encoder):
                 att_idx += 1
 
         # middle
-        sample = self.mid_block(sample)
+        sample = self.mid_block(sample).contiguous()  # see ConditionalDecoder.forward (issue #29)
 
         # post-process
         sample = self.conv_norm_out(sample)
@@ -193,7 +196,10 @@ class ConditionalDecoder(Decoder):
         upscale_dtype = next(iter(self.up_blocks.parameters())).dtype
 
         # middle
-        sample = self.mid_block(sample, None)
+        # .contiguous(): the mid-block self-attention returns a channels-last view
+        # (transpose+reshape); every conv downstream keeps that layout, and on PyTorch <= 2.2
+        # the MPS SiLU kernel silently returns wrong values for channels-last inputs (issue #29).
+        sample = self.mid_block(sample, None).contiguous()
         sample = sample.to(upscale_dtype)
 
         sample = self.cross_att_blocks[0](sample, cond_features[1])
